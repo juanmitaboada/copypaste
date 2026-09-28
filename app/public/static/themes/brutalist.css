@@ -1,0 +1,34 @@
+/* C · Brutalist: thick borders, colour block. Variables are defined in ../style.css. */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #111111;
+  --muted: #666666;
+  --border: #111111;
+  --accent: #111111;
+  --accent-bg: #ffd400;
+  --on-accent: #ffd400;
+  --danger: #111111;
+  --danger-bg: #ff4d4d;
+  --warning: #111111;
+  --warning-bg: #ffd400;
+  --ok: #111111;
+  --field-bg: #ffffff;
+  --field-border: #111111;
+  --go-bg: #111111;
+  --go-text: #ffd400;
+  --logo-color: #111111;
+  --logo-bg: #ffd400;
+  --logo-border: 3px solid #111111;
+  --logo-pad: 14px;
+  --ui-font: ui-monospace, "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  --radius: 0;
+  --card-radius: 0;
+  --bw: 2px;
+  --octo-cheek: #ffd400;
+  color-scheme: light;
+}
+.bar { border-bottom-width: 3px; }
+.badge { border: 1px solid var(--text); }
+.newlink { border: 2px solid var(--text); color: var(--text); font-size: 16px; padding: 2px 8px; }
+#delete, form[data-confirm] button.danger { background: var(--danger-bg); color: var(--text); }

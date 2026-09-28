@@ -1,0 +1,32 @@
+/* G · Amber CRT: old monitor phosphor. Variables are defined in ../style.css. */
+:root {
+  --bg: #0a0700;
+  --surface: #140e00;
+  --text: #ffb000;
+  --muted: #8a5f00;
+  --border: #664600;
+  --accent: #ffb000;
+  --accent-bg: #2a1d00;
+  --on-accent: #0a0700;
+  --danger: #ff6a3d;
+  --danger-bg: #2a1200;
+  --warning: #ffd27a;
+  --warning-bg: #2a1d00;
+  --ok: #ffcc55;
+  --field-bg: #0a0700;
+  --field-border: #664600;
+  --go-bg: #0a0700;
+  --go-text: #ffb000;
+  --logo-color: #ffb000;
+  --logo-suffix: "\2588";
+  --ui-font: ui-monospace, "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  --radius: 0;
+  --card-radius: 0;
+  --case: uppercase;
+  --octo-eye: #0a0700;
+  --octo-pupil: #ffb000;
+  --octo-cheek: #8a5f00;
+  color-scheme: dark;
+}
+.logo { text-transform: uppercase; }
+textarea, input { color: var(--text); }

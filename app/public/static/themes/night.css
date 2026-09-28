@@ -1,0 +1,28 @@
+/* D · Night: dark slate, violet accent, rounded. Variables are defined in ../style.css. */
+:root {
+  --bg: #16161e;
+  --surface: #16161e;
+  --text: #e4e4ef;
+  --muted: #6b6b80;
+  --border: #2f2f3d;
+  --accent: #9d8cff;
+  --accent-bg: #2a2540;
+  --on-accent: #16161e;
+  --danger: #ff8fa3;
+  --danger-bg: #3a1f28;
+  --warning: #f5c26b;
+  --warning-bg: #35291a;
+  --ok: #7dd3a8;
+  --field-bg: #20202b;
+  --field-border: #2f2f3d;
+  --editor-bg: #1c1c26;
+  --go-bg: #9d8cff;
+  --go-text: #16161e;
+  --logo-color: #e4e4ef;
+  --logo-font: system-ui, sans-serif;
+  --radius: 999px;
+  --card-radius: 14px;
+  color-scheme: dark;
+}
+textarea { border-radius: 12px; }
+.go button { border-radius: 999px; margin: 3px; }

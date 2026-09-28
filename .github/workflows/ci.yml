@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and consistency
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          tools: none
+
+      - name: Install tools
+        run: sudo apt-get update -q && sudo apt-get install -y -q shellcheck ripgrep
+
+      - name: PHP syntax
+        run: git ls-files '*.php' | xargs -n1 php -l
+
+      - name: JavaScript syntax
+        run: node --check app/public/static/app.js
+
+      - name: Shell scripts
+        run: |
+          git ls-files '*.sh' | xargs -n1 bash -n
+          git ls-files '*.sh' | xargs shellcheck -S warning
+
+      - name: Python syntax
+        run: git ls-files '*.py' | xargs python3 -m py_compile
+
+      - name: Version is consistent (VERSION, README badge, CHANGELOG)
+        run: tools/check_version.sh
+
+      - name: Tag matches VERSION
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: test "${GITHUB_REF_NAME#v}" = "$(tr -d '[:space:]' < VERSION)"
+
+      - name: Config templates have only known placeholders
+        run: |
+          unknown="$(rg -o '@[A-Z]+@' deploy/ | cut -d: -f2 | sort -u | rg -v '^@(NAME|USER|GROUP|ROOT|DOMAIN|SOCKET|WEBGROUP)@$' || true)"
+          test -z "$unknown" || { echo "unknown placeholders: $unknown"; exit 1; }
+
+  app:
+    name: App and nginx tests
+    needs: lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          tools: none
+
+      - name: Install nginx and tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q nginx apache2-utils ripgrep
+          # The tests start their own nginx on :80/:443.
+          sudo systemctl stop nginx || true
+
+      - name: PHP has argon2id
+        run: |
+          php -r 'exit(defined("PASSWORD_ARGON2ID") ? 0 : 1);'
+
+      # As root: the disk-full test mounts a tiny tmpfs.
+      - name: App tests
+        run: sudo --preserve-env=PATH tests/app_test.sh
+
+      - name: nginx routing tests
+        run: sudo --preserve-env=PATH tests/nginx_test.sh
+
+  ui:
+    name: Browser tests
+    needs: lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          tools: none
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright and Chromium
+        run: |
+          python -m pip install --upgrade pip playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Browser tests
+        run: python tests/ui_test.py

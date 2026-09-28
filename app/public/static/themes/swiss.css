@@ -1,0 +1,35 @@
+/* H · Swiss: white, red, heavy type. Variables are defined in ../style.css. */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #111111;
+  --muted: #999999;
+  --border: #111111;
+  --accent: #e30613;
+  --accent-bg: #fde6e7;
+  --on-accent: #ffffff;
+  --danger: #e30613;
+  --danger-bg: #fde6e7;
+  --warning: #111111;
+  --warning-bg: #f2f2f2;
+  --ok: #111111;
+  --field-bg: #ffffff;
+  --field-border: #111111;
+  --go-bg: #ffffff;
+  --go-text: #e30613;
+  --logo-color: #111111;
+  --logo-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --logo-size: 56px;
+  --logo-weight: 700;
+  --ui-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --radius: 0;
+  --card-radius: 0;
+  --octo: #111111;
+  --octo-cheek: #e30613;
+  color-scheme: light;
+}
+.logo { letter-spacing: -3px; }
+.logo::before { content: ""; display: inline-block; width: 18px; height: 18px; background: #e30613; margin-right: 10px; vertical-align: middle; }
+.go { border-width: 0 0 4px; border-radius: 0; }
+.bar { border-bottom-width: 4px; }
+.newlink { color: #e30613; font-weight: 700; }

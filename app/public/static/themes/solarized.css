@@ -1,0 +1,25 @@
+/* E · Solarized: cream, teal accents. Variables are defined in ../style.css. */
+:root {
+  --bg: #fdf6e3;
+  --surface: #eee8d5;
+  --text: #586e75;
+  --muted: #93a1a1;
+  --border: #d9d2bf;
+  --accent: #268bd2;
+  --accent-bg: #e3ecf0;
+  --on-accent: #fdf6e3;
+  --danger: #dc322f;
+  --danger-bg: #f6dfd6;
+  --warning: #b58900;
+  --warning-bg: #f3e8c4;
+  --ok: #859900;
+  --field-bg: #eee8d5;
+  --field-border: #d9d2bf;
+  --editor-bg: #fdf6e3;
+  --go-bg: #eee8d5;
+  --go-text: #2aa198;
+  --logo-color: #268bd2;
+  --ui-font: ui-monospace, "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  --radius: 4px;
+  color-scheme: light;
+}

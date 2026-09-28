@@ -1,0 +1,28 @@
+/* B · Paper: light, serif, almost empty. Variables are defined in ../style.css. */
+:root {
+  --bg: #faf8f3;
+  --surface: #faf8f3;
+  --text: #1f1d1a;
+  --muted: #8a8377;
+  --border: #e6e1d6;
+  --accent: #1f1d1a;
+  --accent-bg: #efeae0;
+  --on-accent: #faf8f3;
+  --danger: #a33a2c;
+  --danger-bg: #f5e3df;
+  --warning: #8a5a14;
+  --warning-bg: #f5ecd9;
+  --ok: #4f6b3a;
+  --field-bg: #fffefa;
+  --field-border: #d8d2c4;
+  --go-bg: transparent;
+  --go-text: #1f1d1a;
+  --logo-font: Georgia, "DejaVu Serif", serif;
+  --logo-size: 52px;
+  --logo-weight: 400;
+  --ui-font: Georgia, "DejaVu Serif", serif;
+  --radius: 2px;
+  --card-radius: 4px;
+  color-scheme: light;
+}
+.go { border-width: 0 0 1px; border-color: var(--text); border-radius: 0; background: transparent; }

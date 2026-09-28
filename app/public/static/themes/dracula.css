@@ -1,0 +1,24 @@
+/* N · Dracula: dark, pink and purple. Variables are defined in ../style.css. */
+:root {
+  --bg: #282a36;
+  --surface: #21222c;
+  --text: #f8f8f2;
+  --muted: #9ba2c8;
+  --border: #44475a;
+  --accent: #bd93f9;
+  --accent-bg: #3a3452;
+  --on-accent: #282a36;
+  --danger: #ff5555;
+  --danger-bg: #4a2530;
+  --warning: #f1fa8c;
+  --warning-bg: #3d3f33;
+  --ok: #50fa7b;
+  --field-bg: #44475a;
+  --field-border: #44475a;
+  --editor-bg: #21222c;
+  --go-bg: #44475a;
+  --go-text: #bd93f9;
+  --logo-color: #ff79c6;
+  --radius: 6px;
+  color-scheme: dark;
+}

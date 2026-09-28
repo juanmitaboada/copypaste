@@ -1,0 +1,14 @@
+[Unit]
+Description=Purge expired notes of cp instance @NAME@
+
+[Service]
+Type=oneshot
+User=@USER@
+Group=@GROUP@
+ExecStart=/usr/bin/php @ROOT@/app/bin/purge.php
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateNetwork=yes
+ReadWritePaths=@ROOT@/data

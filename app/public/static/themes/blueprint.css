@@ -1,0 +1,32 @@
+/* I · Blueprint: blueprint blue, white lines. Variables are defined in ../style.css. */
+:root {
+  --bg: #0b3d91;
+  --surface: #082f70;
+  --text: #dce8ff;
+  --muted: #9db8e8;
+  --border: #9db8e8;
+  --accent: #ffffff;
+  --accent-bg: #1450b0;
+  --on-accent: #0b3d91;
+  --danger: #ffb4b4;
+  --danger-bg: #4a1f4a;
+  --warning: #ffe39a;
+  --warning-bg: #27407a;
+  --ok: #b9f5c9;
+  --field-bg: #0b3d91;
+  --field-border: #9db8e8;
+  --go-bg: #0b3d91;
+  --go-text: #ffffff;
+  --logo-color: #ffffff;
+  --logo-border: 1px dashed #9db8e8;
+  --logo-pad: 14px;
+  --ui-font: ui-monospace, "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  --radius: 0;
+  --card-radius: 0;
+  --octo-eye: #0b3d91;
+  --octo-pupil: #ffffff;
+  --octo-cheek: #9db8e8;
+  color-scheme: dark;
+}
+.go button { border-left: 1px solid var(--field-border); }
+.card, textarea { border-style: dashed; }

@@ -1,0 +1,30 @@
+/* K · Typewriter: sepia, faded ink. Variables are defined in ../style.css. */
+:root {
+  --bg: #f4ecd8;
+  --surface: #ebe0c6;
+  --text: #3b2f22;
+  --muted: #8b7760;
+  --border: #cdbd9c;
+  --accent: #3b2f22;
+  --accent-bg: #e3d5b4;
+  --on-accent: #f4ecd8;
+  --danger: #8b2c1a;
+  --danger-bg: #ecd3c4;
+  --warning: #7a5410;
+  --warning-bg: #eadcb8;
+  --ok: #4f5a26;
+  --field-bg: #f7f0df;
+  --field-border: #6b5a44;
+  --go-bg: transparent;
+  --go-text: #3b2f22;
+  --logo-color: #3b2f22;
+  --logo-font: "Courier New", Courier, "Nimbus Mono PS", monospace;
+  --logo-size: 44px;
+  --logo-weight: 400;
+  --ui-font: "Courier New", Courier, "Nimbus Mono PS", monospace;
+  --mono: "Courier New", Courier, "Nimbus Mono PS", monospace;
+  --radius: 0;
+  --card-radius: 2px;
+  color-scheme: light;
+}
+.go { border-width: 0 0 1px; border-style: dashed; background: transparent; }

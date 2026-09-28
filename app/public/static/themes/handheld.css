@@ -1,0 +1,33 @@
+/* J · Handheld: four shades of green. Variables are defined in ../style.css. */
+:root {
+  --bg: #9bbc0f;
+  --surface: #8bac0f;
+  --text: #0f380f;
+  --muted: #306230;
+  --border: #0f380f;
+  --accent: #0f380f;
+  --accent-bg: #8bac0f;
+  --on-accent: #9bbc0f;
+  --danger: #0f380f;
+  --danger-bg: #8bac0f;
+  --warning: #0f380f;
+  --warning-bg: #8bac0f;
+  --ok: #0f380f;
+  --field-bg: #8bac0f;
+  --field-border: #0f380f;
+  --go-bg: #0f380f;
+  --go-text: #9bbc0f;
+  --logo-color: #0f380f;
+  --logo-border: 0 solid;
+  --ui-font: ui-monospace, "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  --radius: 0;
+  --card-radius: 0;
+  --bw: 3px;
+  --octo-eye: #9bbc0f;
+  --octo-pupil: #0f380f;
+  --octo-cheek: #306230;
+  color-scheme: light;
+}
+.logo { border-bottom: 5px solid #306230; }
+.bar { background: #306230; color: #9bbc0f; }
+.bar .brand, .bar .sep, .bar .status { color: #9bbc0f; }

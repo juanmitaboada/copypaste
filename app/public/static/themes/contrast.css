@@ -1,0 +1,36 @@
+/* L · High contrast: pure black and white, accessible. Variables are defined in ../style.css. */
+:root {
+  --bg: #000000;
+  --surface: #000000;
+  --text: #ffffff;
+  --muted: #d0d0d0;
+  --border: #ffffff;
+  --accent: #ffff00;
+  --accent-bg: #000000;
+  --on-accent: #000000;
+  --danger: #ff6b6b;
+  --danger-bg: #000000;
+  --warning: #ffff00;
+  --warning-bg: #000000;
+  --ok: #7dff7d;
+  --field-bg: #ffffff;
+  --field-border: #ffffff;
+  --editor-bg: #000000;
+  --go-bg: #000000;
+  --go-text: #ffffff;
+  --logo-color: #ffffff;
+  --logo-font: system-ui, sans-serif;
+  --logo-weight: 700;
+  --radius: 0;
+  --card-radius: 0;
+  --bw: 2px;
+  --octo-eye: #000000;
+  --octo-pupil: #ffffff;
+  --octo-cheek: #ff6b6b;
+  color-scheme: dark;
+}
+.go input { color: #000000; }
+.go input::placeholder { color: #555555; }
+.go button { border: 2px solid #ffffff; margin: 3px; }
+.badge, .banner { border: 1px solid currentColor; }
+a { text-decoration: underline; }

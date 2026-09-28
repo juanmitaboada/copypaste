@@ -1,0 +1,28 @@
+/* M · Pastel: lilac and mint, very rounded. Variables are defined in ../style.css. */
+:root {
+  --bg: #f3efff;
+  --surface: #ebe4ff;
+  --text: #3d2f73;
+  --muted: #8f84b8;
+  --border: #ddd3ff;
+  --accent: #6b4fd8;
+  --accent-bg: #e0d7ff;
+  --on-accent: #ffffff;
+  --danger: #c2416b;
+  --danger-bg: #fbe1ea;
+  --warning: #8a5a14;
+  --warning-bg: #fdf0d5;
+  --ok: #1f6b4f;
+  --field-bg: #ffffff;
+  --field-border: #ddd3ff;
+  --go-bg: #b8f0d8;
+  --go-text: #1f6b4f;
+  --logo-color: #6b4fd8;
+  --logo-font: system-ui, sans-serif;
+  --radius: 999px;
+  --card-radius: 20px;
+  color-scheme: light;
+}
+textarea { border-radius: 16px; }
+.go button { border-radius: 999px; margin: 3px; }
+.newlink { background: #ffffff; border-radius: 999px; color: var(--accent); }

@@ -1,0 +1,25 @@
+/* F · Nord: dark polar blue. Variables are defined in ../style.css. */
+:root {
+  --bg: #2e3440;
+  --surface: #3b4252;
+  --text: #d8dee9;
+  --muted: #7b88a1;
+  --border: #4c566a;
+  --accent: #88c0d0;
+  --accent-bg: #34495a;
+  --on-accent: #2e3440;
+  --danger: #bf616a;
+  --danger-bg: #4a3339;
+  --warning: #ebcb8b;
+  --warning-bg: #4a4436;
+  --ok: #a3be8c;
+  --field-bg: #3b4252;
+  --field-border: #4c566a;
+  --editor-bg: #2e3440;
+  --go-bg: #3b4252;
+  --go-text: #88c0d0;
+  --logo-color: #88c0d0;
+  --logo-font: system-ui, sans-serif;
+  --radius: 6px;
+  color-scheme: dark;
+}
