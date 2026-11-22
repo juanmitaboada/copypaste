@@ -69,7 +69,7 @@
     const conflictEl = $('#conflict');
     const errorEl = $('#error');
     const url = body.dataset.url;
-    const max = parseInt(body.dataset.max, 10);
+    const max = Number.parseInt(body.dataset.max, 10);
     const encoder = new TextEncoder();
     let base = body.dataset.hash;
     let saved = textarea.value;   // text the server holds as `base`

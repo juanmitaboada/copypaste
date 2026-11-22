@@ -1,0 +1,2 @@
+# Top-level pins for tests/requirements-ui.txt (see the regeneration command there).
+playwright==1.65.2

@@ -2,7 +2,7 @@
 """Browser test of the editor UI (autosave, conflict banner, delete, burn).
 
 Runs php -S with tests/router.php and drives Chromium through Playwright.
-Optional: needs `python3 -m pip install playwright && playwright install chromium`.
+Optional: needs `python3 -m pip install --require-hashes --only-binary :all: -r tests/requirements-ui.txt && playwright install chromium`.
 Usage: tests/ui_test.py [screenshot_dir]
 """
 

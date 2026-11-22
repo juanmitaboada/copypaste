@@ -3,7 +3,7 @@
 
 Runs the app with `php -S` (tests/router.php) and captures the entry page and the
 editor once per theme with Playwright/Chromium.
-Needs: php, `python3 -m pip install playwright && playwright install chromium`.
+Needs: php, `python3 -m pip install --require-hashes --only-binary :all: -r tests/requirements-ui.txt && playwright install chromium`.
 Usage: tools/screenshots.py [output_dir]      (default: docs/themes)
 """
 

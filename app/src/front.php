@@ -114,7 +114,7 @@ final class App
                 continue;
             }
             [$key, $value] = array_pad(explode('=', $pair, 2), 2, null);
-            if ($found !== null || $key !== 'a' || $value === null || preg_match('/^[a-z]{1,16}$/', $value) !== 1) {
+            if ($found !== null || $key !== 'a' || $value === null || preg_match('/^[a-z]{1,16}$/D', $value) !== 1) {
                 return null;
             }
             $found = $value;

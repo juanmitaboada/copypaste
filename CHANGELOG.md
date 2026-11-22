@@ -11,6 +11,18 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Static analysis in SonarQube Cloud (automatic analysis, `.sonarcloud.properties`)
   and its Quality Gate, Security and Maintainability badges in the README.
 
+### Changed
+
+- CI pins `shivammathur/setup-php` to a commit SHA and installs Playwright from
+  `tests/requirements-ui.txt` (exact versions, hashes, wheels only).
+- `app.js` uses `Number.parseInt`.
+
+### Fixed
+
+- Code, theme and action validation no longer accept a value with a trailing newline
+  (PCRE `$` matched before a final `\n`). Not reachable before: every caller trims or
+  receives these values from nginx first.
+
 ## [1.0.0] - 2026-09-28
 
 First public release.

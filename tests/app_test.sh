@@ -262,6 +262,8 @@ touch -d '2 hours ago' "$WORK/data/public/emptym.json"
 CP_DATA_DIR="$WORK/data" php -r 'require "'"$HERE"'/../app/src/lib.php"; (new Cp\Store(getenv("CP_DATA_DIR")))->purgeExpired(time());'
 check "purge removes stale empty meta" 0 "$([[ -f "$WORK/data/public/emptym.json" ]] && echo 1 || echo 0)"
 check "code usable again after purge" "/emptym" "$(create code=emptym zone=public mode=edit expiry=never content=x)"
+# PCRE '$' also matches before a final "\n"; validators use /D so it does not.
+check "code with trailing newline is invalid" "01" "$(php -r 'require "'"$HERE"'/../app/src/lib.php"; echo (int) Cp\validCode("abc\n"), (int) Cp\validCode("abc");')"
 if [[ $EUID -eq 0 ]]; then
     # Disk full during create: a 64 KiB tmpfs, filled up, then a 40 KiB note.
     FULL="$WORK/full"; mkdir -p "$FULL"

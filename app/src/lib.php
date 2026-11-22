@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Cp;
 
-const CODE_RE = '/^[a-z0-9_-]{3,32}$/';
+// D: '$' must not accept a trailing newline (PCRE's default does).
+const CODE_RE = '/^[a-z0-9_-]{3,32}$/D';
 const ZONES = ['public', 'private'];
 const MODES = ['edit', 'readonly', 'burn'];
 // Codes that collide with routes or would confuse people typing them.
@@ -21,7 +22,7 @@ const EXPIRY_OPTIONS = [
     'never' => ['label' => 'Never', 'idle' => null, 'ttl' => null],
 ];
 const DEFAULT_EXPIRY = ['public' => 'idle7d', 'private' => 'never'];
-const THEME_RE = '/^[a-z0-9-]{1,32}$/';
+const THEME_RE = '/^[a-z0-9-]{1,32}$/D';
 const DEFAULT_THEME = 'terminal';
 
 final class HttpError extends \RuntimeException
