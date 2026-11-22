@@ -14,6 +14,10 @@
   <a href="#layout-on-the-server"><img src="https://img.shields.io/badge/database-none-brightgreen" alt="No database"></a>
   <a href="#themes"><img src="https://img.shields.io/badge/themes-14-a974ee" alt="14 themes"></a>
   <a href="SECURITY.md"><img src="https://img.shields.io/badge/security-policy-informational" alt="Security policy"></a>
+  <br>
+  <a href="https://sonarcloud.io/project/overview?id=juanmitaboada_copypaste"><img src="https://sonarcloud.io/api/project_badges/measure?project=juanmitaboada_copypaste&amp;metric=alert_status" alt="Quality Gate"></a>
+  <a href="https://sonarcloud.io/project/overview?id=juanmitaboada_copypaste"><img src="https://sonarcloud.io/api/project_badges/measure?project=juanmitaboada_copypaste&amp;metric=security_rating" alt="Security Rating"></a>
+  <a href="https://sonarcloud.io/project/overview?id=juanmitaboada_copypaste"><img src="https://sonarcloud.io/api/project_badges/measure?project=juanmitaboada_copypaste&amp;metric=sqale_rating" alt="Maintainability Rating"></a>
 </p>
 
 A minimal, self-hosted online copy/paste notebook: open a short code, paste, and it is
@@ -422,6 +426,9 @@ tools/screenshots.py  # regenerate docs/themes/*.png (Playwright/Chromium)
 GitHub Actions (`.github/workflows/ci.yml`) runs on every push and pull request: PHP,
 JavaScript, shell (shellcheck) and Python syntax, the version consistency check, the
 app and nginx suites (as root, so the disk-full case runs too) and the browser suite.
+
+Static analysis runs in [SonarQube Cloud](https://sonarcloud.io/project/overview?id=juanmitaboada_copypaste)
+(automatic analysis of `main` and pull requests, configured in `.sonarcloud.properties`).
 
 ## Releases
 

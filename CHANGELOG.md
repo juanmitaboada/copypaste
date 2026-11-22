@@ -6,6 +6,11 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- Static analysis in SonarQube Cloud (automatic analysis, `.sonarcloud.properties`)
+  and its Quality Gate, Security and Maintainability badges in the README.
+
 ## [1.0.0] - 2026-09-28
 
 First public release.
