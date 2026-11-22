@@ -285,8 +285,9 @@ fi
 
 echo "--- entry page gives nothing away"
 HOME_HTML="$(body "$BASE/")"
-check "no 'note' on entry page" 0 "$(rg -ci 'note' <<< "$HOME_HTML" || echo 0)"
-check "no 'paste'/'copy' on entry page" 0 "$(rg -ci 'paste|copy' <<< "$HOME_HTML" || echo 0)"
+# Whole words, as tools/audit.sh checks: "pastel" (a theme name) is fine.
+check "no 'note' on entry page" 0 "$(rg -ciw 'notes?' <<< "$HOME_HTML" || echo 0)"
+check "no 'paste'/'copy' on entry page" 0 "$(rg -ciw 'paste|pasting|copy' <<< "$HOME_HTML" || echo 0)"
 check "404 page is neutral" 0 "$(body "$BASE/nothere1" | rg -ci 'note|burn|expired|deleted' || echo 0)"
 check "animated octopus on entry page" 1 "$(rg -c '<svg class="octo live"' <<< "$HOME_HTML")"
 check "small static octopus in the page bar" 1 "$(body "$BASE/nothere1" | rg -c '<a class="brand" href="/"><svg class="octo small"')"
@@ -309,7 +310,10 @@ rm -f "$WORK/theme"
 for f in "$HERE"/../app/public/static/themes/*.css; do
     n="$(basename "$f" .css)"
     check "theme $n served" 200 "$(status "$BASE/static/themes/$n.css")"
+    printf '%s\n' "$n" > "$WORK/theme"
+    check "entry page neutral with theme $n" 0 "$(body "$BASE/" | rg -ciw 'notes?|paste|pasting|copy' || echo 0)"
 done
+rm -f "$WORK/theme"
 
 echo "--- static"
 check "static js served" 200 "$(status "$BASE/static/app.js")"

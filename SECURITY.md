@@ -23,7 +23,8 @@ date
 
 Use the same `CP_*` values as in the README install (add `CP_USER`/`CP_GROUP` if they
 are not `cp`; `CP_POOL` and `CP_SOCKET` if your php-fpm pool file or socket are not
-named after `CP_NAME`). It prints `PASS`/`WARN`/`FAIL` per check and exits non-zero on any
+named after `CP_NAME`; `CP_HTPASSWD` if nginx reads the basic-auth users from another
+file than `etc/htpasswd`). It prints `PASS`/`WARN`/`FAIL` per check and exits non-zero on any
 `FAIL`. Run it after installing, after every update and from time to time.
 
 ## Threat model

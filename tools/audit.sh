@@ -5,7 +5,8 @@
 #   CP_NAME=cp CP_ROOT=/var/www/cp CP_DOMAIN=cp.example.org tools/audit.sh
 # Optional: CP_USER, CP_GROUP (default cp), CP_WEBGROUP (www-data), PHPV (8.4),
 #           CP_POOL (default /etc/php/$PHPV/fpm/pool.d/$CP_NAME.conf),
-#           CP_SOCKET (default /run/php/$CP_NAME.sock), for installs that named them otherwise,
+#           CP_SOCKET (default /run/php/$CP_NAME.sock),
+#           CP_HTPASSWD (default $CP_ROOT/etc/htpasswd), for installs that placed them otherwise,
 #           CP_SKIP_HTTP=1 to skip the checks made over HTTPS.
 # Exit status: 0 if no FAIL (WARNs are allowed), 1 otherwise.
 set -uo pipefail
@@ -19,6 +20,7 @@ WEBGROUP="${CP_WEBGROUP:-www-data}"
 PHPV="${PHPV:-8.4}"
 POOL="${CP_POOL:-/etc/php/${PHPV}/fpm/pool.d/${NAME}.conf}"
 SOCKET="${CP_SOCKET:-/run/php/${NAME}.sock}"
+HTPASSWD="${CP_HTPASSWD:-${ROOT}/etc/htpasswd}"
 FAILS=0
 WARNS=0
 
@@ -46,13 +48,20 @@ expect "PHP user $RUSER cannot write app/" bash -c "! runuser -u '$RUSER' -- tes
 secret_len="$(tr -d '[:space:]' < "$ROOT/etc/secret" 2>/dev/null | wc -c)"
 (( secret_len >= 32 )) && pass "etc/secret has $secret_len characters" || fail "etc/secret is missing or shorter than 32 characters"
 expect "nginx group $WEBGROUP cannot read etc/secret" bash -c "! runuser -u nobody -g '$WEBGROUP' -- cat '$ROOT/etc/secret'"
-[[ "$(mode_owner "$ROOT/etc/htpasswd")" == "640 root:$WEBGROUP" ]] && pass "etc/htpasswd is 640 root:$WEBGROUP" || fail "etc/htpasswd should be 640 root:$WEBGROUP (is $(mode_owner "$ROOT/etc/htpasswd"))"
-if [[ -s "$ROOT/etc/htpasswd" ]] && ! rg -qv '^[^:]+:\$2[aby]\$' "$ROOT/etc/htpasswd"; then
-    pass "every htpasswd entry uses bcrypt"
+if [[ -f "$HTPASSWD" ]]; then
+    [[ "$(mode_owner "$HTPASSWD")" == "640 root:$WEBGROUP" ]] && pass "$HTPASSWD is 640 root:$WEBGROUP" || fail "$HTPASSWD should be 640 root:$WEBGROUP (is $(mode_owner "$HTPASSWD"))"
+    # Blank lines are not entries; every real entry must be bcrypt.
+    entries="$(rg -v '^[[:space:]]*$' "$HTPASSWD")"
+    if [[ -n "$entries" ]] && ! rg -qv '^[^:]+:\$2[aby]\$' <<< "$entries"; then
+        pass "every htpasswd entry uses bcrypt"
+    else
+        fail "htpasswd is empty or has non-bcrypt entries (recreate them with htpasswd -B)"
+    fi
+    expect "PHP user $RUSER cannot read $HTPASSWD" bash -c "! runuser -u '$RUSER' -- cat '$HTPASSWD'"
 else
-    fail "htpasswd is empty or has non-bcrypt entries (recreate them with htpasswd -B)"
+    # Without the file every check above would pass or fail for the wrong reason.
+    fail "htpasswd not found at $HTPASSWD (set CP_HTPASSWD to the file nginx uses)"
 fi
-expect "PHP user $RUSER cannot read etc/htpasswd" bash -c "! runuser -u '$RUSER' -- cat '$ROOT/etc/htpasswd'"
 if [[ -e "$ROOT/etc/theme" ]]; then
     [[ "$(stat -c '%U' "$ROOT/etc/theme")" == root ]] && [[ ! "$(stat -c '%a' "$ROOT/etc/theme")" =~ [2367].$|[2367]$ ]] \
         && pass "etc/theme is owned by root and not writable by others" || fail "etc/theme must be owned by root and writable only by root"
@@ -95,7 +104,8 @@ if [[ -f "$POOL" ]]; then
 else
     fail "pool file not found"
 fi
-others="$(rg -l "^[[:space:]]*(user|group)[[:space:]]*=[[:space:]]*${WEBGROUP}[[:space:]]*$" "/etc/php/${PHPV}/fpm/pool.d/" 2>/dev/null | xargs)"
+# Only *.conf: what Debian's php-fpm.conf includes (disabled pools are renamed away).
+others="$(rg -l --glob '*.conf' "^[[:space:]]*(user|group)[[:space:]]*=[[:space:]]*${WEBGROUP}[[:space:]]*$" "/etc/php/${PHPV}/fpm/pool.d/" 2>/dev/null | xargs)"
 if [[ -z "$others" ]]; then
     pass "no PHP pool runs as $WEBGROUP"
 else
@@ -109,6 +119,7 @@ section "nginx"
 if conf="$(nginx -T 2>/dev/null)"; then
     n="$(rg -c "limit_req_zone .* zone=${NAME}_req:" <<< "$conf" || true)"
     [[ "$n" == 1 ]] && pass "site loaded exactly once" || fail "zone ${NAME}_req defined $n times (site missing or included twice)"
+    rg -qF "auth_basic_user_file ${HTPASSWD};" <<< "$conf" && pass "nginx uses $HTPASSWD for basic auth" || fail "no auth_basic_user_file ${HTPASSWD}; in nginx (set CP_HTPASSWD to the file nginx uses)"
     rg -q "server_tokens off" <<< "$conf" && pass "server_tokens off" || warn "server_tokens off not found"
     rg -q "fastcgi_param SCRIPT_FILENAME $ROOT/app/src/front.php;" <<< "$conf" && pass "fixed SCRIPT_FILENAME" || fail "SCRIPT_FILENAME is not fixed to $ROOT/app/src/front.php"
     rg -qF "fastcgi_pass unix:${SOCKET};" <<< "$conf" && pass "passes to $SOCKET" || fail "fastcgi_pass is not $SOCKET"
@@ -160,7 +171,8 @@ if [[ "${CP_SKIP_HTTP:-0}" != 1 ]]; then
             c="$(code --path-as-is "$U$p")"; [[ "$c" == 404 || "$c" == 400 ]] && pass "$p -> $c" || fail "$p -> $c (expected 404)"
         done
         home="$("${C[@]}" "$U/")"
-        rg -qi 'note|paste' <<< "$home" && warn "entry page mentions notes or pasting" || pass "entry page gives nothing away"
+        # Whole words: theme names such as "pastel" are not a giveaway.
+        rg -qiw 'notes?|paste|pasting' <<< "$home" && warn "entry page mentions notes or pasting" || pass "entry page gives nothing away"
     fi
 fi
 

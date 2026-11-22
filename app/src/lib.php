@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cp;
 
 // Kept equal to /VERSION by tools/check_version.sh: only app/ is deployed.
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 // D: '$' must not accept a trailing newline (PCRE's default does).
 const CODE_RE = '/^[a-z0-9_-]{3,32}$/D';
 const ZONES = ['public', 'private'];
