@@ -6,6 +6,8 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-22
+
 ### Added
 
 - Static analysis in SonarQube Cloud (automatic analysis, `.sonarcloud.properties`)
@@ -51,5 +53,6 @@ First public release.
 - Manual install guide, optional `install.sh`, `tools/audit.sh` security audit,
   `SECURITY.md`, and app, nginx and browser test suites run in CI.
 
-[Unreleased]: https://github.com/juanmitaboada/copypaste/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/juanmitaboada/copypaste/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/juanmitaboada/copypaste/releases/tag/v1.0.1
 [1.0.0]: https://github.com/juanmitaboada/copypaste/releases/tag/v1.0.0

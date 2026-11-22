@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/juanmitaboada/copypaste/actions/workflows/ci.yml"><img src="https://github.com/juanmitaboada/copypaste/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version 1.0.0"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-1.0.1-blue" alt="Version 1.0.1"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-yellow" alt="License: Apache 2.0"></a>
   <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/changelog-CHANGELOG-orange.svg" alt="Changelog"></a>
   <br>
