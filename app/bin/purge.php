@@ -14,5 +14,11 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $config = Config::fromEnvironment();
-$purged = (new Store($config->dataDir))->purgeExpired(time());
+try {
+    $purged = (new Store($config->dataDir))->purgeExpired(time());
+} catch (\RuntimeException $e) {
+    // Non-zero exit makes the systemd unit (and audit.sh) report the failure.
+    fwrite(STDERR, 'cp-purge: ' . $e->getMessage() . "\n");
+    exit(1);
+}
 fwrite(STDOUT, "cp-purge: removed {$purged} expired note(s)\n");

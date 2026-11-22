@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cp;
 
+// Kept equal to /VERSION by tools/check_version.sh: only app/ is deployed.
+const VERSION = '1.1.0';
 // D: '$' must not accept a trailing newline (PCRE's default does).
 const CODE_RE = '/^[a-z0-9_-]{3,32}$/D';
 const ZONES = ['public', 'private'];
@@ -359,6 +361,13 @@ final class Store
 
     public function purgeExpired(int $now): int
     {
+        // glob() returns nothing on an unreadable directory: fail instead of "removed 0".
+        foreach (ZONES as $zone) {
+            $dir = $this->dataDir . '/' . $zone;
+            if (!is_dir($dir) || !is_readable($dir) || !is_writable($dir) || !is_executable($dir)) {
+                throw new \RuntimeException('cannot read and write ' . $dir . ' (wrong user or permissions?)');
+            }
+        }
         $purged = 0;
         // Empty meta older than an hour can only be the remains of a crash mid-create.
         foreach (ZONES as $zone) {

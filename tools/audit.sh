@@ -4,6 +4,8 @@
 # Usage (as root, same variables as README step 0):
 #   CP_NAME=cp CP_ROOT=/var/www/cp CP_DOMAIN=cp.example.org tools/audit.sh
 # Optional: CP_USER, CP_GROUP (default cp), CP_WEBGROUP (www-data), PHPV (8.4),
+#           CP_POOL (default /etc/php/$PHPV/fpm/pool.d/$CP_NAME.conf),
+#           CP_SOCKET (default /run/php/$CP_NAME.sock), for installs that named them otherwise,
 #           CP_SKIP_HTTP=1 to skip the checks made over HTTPS.
 # Exit status: 0 if no FAIL (WARNs are allowed), 1 otherwise.
 set -uo pipefail
@@ -15,7 +17,8 @@ RUSER="${CP_USER:-cp}"
 RGROUP="${CP_GROUP:-cp}"
 WEBGROUP="${CP_WEBGROUP:-www-data}"
 PHPV="${PHPV:-8.4}"
-POOL="/etc/php/${PHPV}/fpm/pool.d/${NAME}.conf"
+POOL="${CP_POOL:-/etc/php/${PHPV}/fpm/pool.d/${NAME}.conf}"
+SOCKET="${CP_SOCKET:-/run/php/${NAME}.sock}"
 FAILS=0
 WARNS=0
 
@@ -85,6 +88,8 @@ if [[ -f "$POOL" ]]; then
     for f in allow_url_fopen allow_url_include file_uploads display_errors expose_php; do
         [[ "$(pv "php_admin_flag\[$f\]")" == off ]] && pass "$f = off" || fail "$f should be php_admin_flag off"
     done
+    # realpath -m: /var/run is a symlink to /run, so both spellings are the same socket.
+    [[ "$(realpath -m "$(pv 'listen')")" == "$(realpath -m "$SOCKET")" ]] && pass "pool listens on $SOCKET" || fail "pool listens on '$(pv listen)', expected $SOCKET"
     [[ "$(pv 'listen.mode')" == 0660 && "$(pv 'listen.group')" == "$WEBGROUP" ]] && pass "socket 0660, group $WEBGROUP" || fail "socket should be listen.mode 0660, listen.group $WEBGROUP"
     [[ "$(pv 'clear_env')" == yes ]] && pass "clear_env = yes" || warn "clear_env is not yes"
 else
@@ -106,7 +111,7 @@ if conf="$(nginx -T 2>/dev/null)"; then
     [[ "$n" == 1 ]] && pass "site loaded exactly once" || fail "zone ${NAME}_req defined $n times (site missing or included twice)"
     rg -q "server_tokens off" <<< "$conf" && pass "server_tokens off" || warn "server_tokens off not found"
     rg -q "fastcgi_param SCRIPT_FILENAME $ROOT/app/src/front.php;" <<< "$conf" && pass "fixed SCRIPT_FILENAME" || fail "SCRIPT_FILENAME is not fixed to $ROOT/app/src/front.php"
-    rg -q "fastcgi_pass unix:/run/php/${NAME}.sock;" <<< "$conf" && pass "passes to /run/php/${NAME}.sock" || fail "fastcgi_pass is not /run/php/${NAME}.sock"
+    rg -qF "fastcgi_pass unix:${SOCKET};" <<< "$conf" && pass "passes to $SOCKET" || fail "fastcgi_pass is not $SOCKET"
     if rg -q 'location ~ \\\.php\$|location ~ \.php' <<< "$(sed -n "/server_name ${DOMAIN//./\\.};/,/^}/p" <<< "$conf")"; then
         fail "a generic .php location exists in the $DOMAIN server block"
     else
@@ -126,6 +131,8 @@ section "purge timer"
 if systemctl is-system-running >/dev/null 2>&1 || [[ "$(systemctl is-system-running 2>/dev/null)" == degraded ]]; then
     systemctl is-enabled --quiet "${NAME}-purge.timer" && pass "${NAME}-purge.timer enabled" || fail "${NAME}-purge.timer not enabled"
     systemctl is-active --quiet "${NAME}-purge.timer" && pass "${NAME}-purge.timer active" || fail "${NAME}-purge.timer not active"
+    pu="$(systemctl show -p User --value "${NAME}-purge.service" 2>/dev/null):$(systemctl show -p Group --value "${NAME}-purge.service" 2>/dev/null)"
+    [[ "$pu" == "$RUSER:$RGROUP" ]] && pass "purge runs as $RUSER:$RGROUP" || fail "purge runs as $pu, expected $RUSER:$RGROUP (it could not read the notes)"
     res="$(systemctl show -p Result --value "${NAME}-purge.service" 2>/dev/null)"
     [[ "$res" == success ]] && pass "last purge run succeeded" || warn "last purge result: ${res:-unknown}"
 else

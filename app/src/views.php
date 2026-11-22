@@ -10,6 +10,7 @@ use const Cp\DEFAULT_THEME;
 use const Cp\EXPIRY_OPTIONS;
 use const Cp\MAX_BYTES;
 use const Cp\MODES;
+use const Cp\VERSION;
 
 const AUTHOR = 'Juanmi Taboada';
 const AUTHOR_URL = 'https://www.juanmitaboada.com';
@@ -52,6 +53,7 @@ function footer(): string
     return '<footer class="foot">'
         . '<span class="foot-year">© 2026</span>'
         . '<a class="foot-name" href="' . $url . '" target="_blank" rel="noopener">' . h(AUTHOR) . '</a>'
+        . '<span class="foot-ver">v' . h(VERSION) . '</span>'
         . '<span class="foot-links">'
         . '<a href="' . $url . '" target="_blank" rel="noopener" title="Website">' . icon('globe') . '<span>' . h(preg_replace('#^https?://(www\.)?#', '', AUTHOR_URL)) . '</span></a>'
         . '<a href="mailto:' . $mail . '" title="Email">' . icon('mail') . '<span>' . $mail . '</span></a>'

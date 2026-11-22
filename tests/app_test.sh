@@ -261,6 +261,8 @@ check "empty meta is not deleted by readers" 1 "$([[ -f "$WORK/data/public/empty
 touch -d '2 hours ago' "$WORK/data/public/emptym.json"
 CP_DATA_DIR="$WORK/data" php -r 'require "'"$HERE"'/../app/src/lib.php"; (new Cp\Store(getenv("CP_DATA_DIR")))->purgeExpired(time());'
 check "purge removes stale empty meta" 0 "$([[ -f "$WORK/data/public/emptym.json" ]] && echo 1 || echo 0)"
+PURGE_OUT="$(CP_DATA_DIR="$WORK/missing" php "$HERE/../app/bin/purge.php" 2>&1)"; PURGE_RC=$?
+check "purge fails loudly when it cannot reach data/" "1 1" "$PURGE_RC $(rg -c 'cannot read and write' <<< "$PURGE_OUT")"
 check "code usable again after purge" "/emptym" "$(create code=emptym zone=public mode=edit expiry=never content=x)"
 # PCRE '$' also matches before a final "\n"; validators use /D so it does not.
 check "code with trailing newline is invalid" "01" "$(php -r 'require "'"$HERE"'/../app/src/lib.php"; echo (int) Cp\validCode("abc\n"), (int) Cp\validCode("abc");')"
@@ -290,6 +292,7 @@ check "animated octopus on entry page" 1 "$(rg -c '<svg class="octo live"' <<< "
 check "small static octopus in the page bar" 1 "$(body "$BASE/nothere1" | rg -c '<a class="brand" href="/"><svg class="octo small"')"
 check "favicon is an SVG octopus" 1 "$(body "$BASE/static/favicon.svg" | rg -c 'M20 60C20 18 80 18 80 60Z')"
 check "footer on every page" "1 1" "$(body "$BASE/" | rg -c '<footer class="foot">') $(body "$BASE/nothere1" | rg -c '<footer class="foot">')"
+check "footer shows the version" 1 "$(body "$BASE/" | rg -c "<span class=\"foot-ver\">v$(tr -d '[:space:]' < "$HERE/../VERSION")</span>")"
 check "footer names and links the author" "1 1 1" "$(body "$BASE/" | rg -c 'class="foot-name" href="https://www.juanmitaboada.com"[^>]*>Juanmi Taboada<') $(body "$BASE/" | rg -c 'href="mailto:juanmi@juanmitaboada.com"') $(body "$BASE/" | rg -c 'rel="noopener"')"
 
 echo "--- themes (etc/theme)"

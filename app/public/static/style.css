@@ -192,6 +192,7 @@ th { color: var(--muted); font-weight: 500; }
 .foot a:hover, .foot a:focus-visible { color: var(--accent); }
 .foot-name { font-weight: 600; color: var(--text) !important; }
 .foot-name:hover { color: var(--accent) !important; }
+.foot-ver { font-variant-numeric: tabular-nums; }
 .foot-links { display: inline-flex; gap: 10px; padding-left: 10px; border-left: var(--bw) solid var(--border); }
 .foot-links a { display: inline-flex; align-items: center; gap: 4px; }
 .ico { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }

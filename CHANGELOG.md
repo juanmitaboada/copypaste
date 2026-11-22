@@ -6,6 +6,21 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-22
+
+### Added
+
+- The page footer shows the version (`VERSION` constant in `app/src/lib.php`, kept in
+  step with `VERSION` by `tools/check_version.sh`).
+- `tools/audit.sh`: optional `CP_POOL` and `CP_SOCKET` for installs whose php-fpm pool
+  file or socket are not named after `CP_NAME`; new checks that the pool listens on that
+  socket and that the purge service runs as `CP_USER:CP_GROUP`.
+
+### Fixed
+
+- The purge exits with an error when it cannot read and write `data/` (for example,
+  run as the wrong user) instead of reporting "removed 0 expired note(s)" as a success.
+
 ## [1.0.1] - 2026-11-22
 
 ### Added
@@ -53,6 +68,7 @@ First public release.
 - Manual install guide, optional `install.sh`, `tools/audit.sh` security audit,
   `SECURITY.md`, and app, nginx and browser test suites run in CI.
 
-[Unreleased]: https://github.com/juanmitaboada/copypaste/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/juanmitaboada/copypaste/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/juanmitaboada/copypaste/releases/tag/v1.1.0
 [1.0.1]: https://github.com/juanmitaboada/copypaste/releases/tag/v1.0.1
 [1.0.0]: https://github.com/juanmitaboada/copypaste/releases/tag/v1.0.0
